@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Keuangan - My Finance</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="assets/css/style.css"
+    >
+
+
+    <style>
+
+        body {
+            background: #f8eee8;
+        }
+
+        .page-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+
+        .page-title h2 {
+            color: #713f50;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .page-title p {
+            color: #9b7b7b;
+            margin: 0;
+        }
+
+        .month-selector {
+            background: #fffaf8;
+            border: 1px solid #eadbd5;
+            border-radius: 15px;
+            padding: 10px 14px;
+            min-width: 210px;
+        }
+
+        .month-selector label {
+            display: block;
+            font-size: 11px;
+            color: #9b7b7b;
+            margin-bottom: 4px;
+        }
+
+        .month-selector select {
+            border: none;
+            outline: none;
+            background: transparent;
+            color: #713f50;
+            font-weight: 700;
+            width: 100%;
+        }
+
+        .summary-card {
+            background: #fffaf8;
+            border: 1px solid #eadbd5;
+            border-radius: 18px;
+            padding: 18px;
+            height: 100%;
+            box-shadow: 0 6px 20px rgba(113,63,80,.05);
+        }
+
+        .summary-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            font-size: 19px;
+        }
+
+        .summary-label {
+            color: #9b7b7b;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .summary-value {
+            color: #713f50;
+            font-size: 20px;
+            font-weight: 750;
+        }
+
+        .icon-saldo {
+            background: #f1dfe4;
+            color: #a56578;
+        }
+
+        .icon-masuk {
+            background: #e2f2e8;
+            color: #5d9771;
+        }
+
+        .icon-keluar {
+            background: #f7e1e5;
+            color: #b66c7e;
+        }
+
+        .icon-transaksi {
+            background: #e7eef2;
+            color: #527789;
+        }
+
+        .form-card,
+        .filter-card,
+        .table-card {
+            background: #fffaf8;
+            border: 1px solid #eadbd5;
+            border-radius: 20px;
+            padding: 22px;
+            box-shadow: 0 6px 20px rgba(113,63,80,.05);
+        }
+
+        .section-title {
+            color: #713f50;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        .form-label {
+            color: #705858;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .form-control,
+        .form-select {
+            border-color: #eadbd5;
+            background: #fffdfc;
+            border-radius: 11px;
+            min-height: 43px;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #c77d92;
+            box-shadow: 0 0 0 .2rem rgba(199,125,146,.12);
+        }
+
+        .jenis-wrapper {
+            display: flex;
+            gap: 10px;
+        }
+
+        .jenis-option {
+            flex: 1;
+            position: relative;
+        }
+
+        .jenis-option input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .jenis-option label {
+            display: block;
+            text-align: center;
+            padding: 11px;
+            border: 1px solid #eadbd5;
+            border-radius: 11px;
+            cursor: pointer;
+            color: #8a6d6d;
+            background: #fffdfc;
+            transition: .2s;
+        }
+
+        .jenis-option input:checked + label {
+            background: #f1dce2;
+            border-color: #c77d92;
+            color: #713f50;
+            font-weight: 700;
+        }
+
+        .btn-pink {
+            background: #c77d92;
+            color: white;
+            border: none;
+            border-radius: 11px;
+            padding: 10px 18px;
+        }
+
+        .btn-pink:hover {
+            background: #af687d;
+            color: white;
+        }
+
+        .btn-soft {
+            background: #f2e4df;
+            color: #795b5b;
+            border: none;
+            border-radius: 11px;
+            padding: 10px 18px;
+        }
+
+        .btn-soft:hover {
+            background: #ead6d0;
+            color: #713f50;
+        }
+
+        .filter-title {
+            color: #713f50;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            background: #f8eee8;
+            color: #806666;
+            font-size: 12px;
+            border-bottom: 1px solid #eadbd5;
+            white-space: nowrap;
+        }
+
+        .table tbody td {
+            color: #6d5555;
+            vertical-align: middle;
+            font-size: 13px;
+            border-bottom-color: #f0e4df;
+        }
+
+        .badge-pemasukan {
+            background: #e3f3ea;
+            color: #548a68;
+            font-weight: 600;
+        }
+
+        .badge-pengeluaran {
+            background: #f7e0e5;
+            color: #ad6679;
+            font-weight: 600;
+        }
+
+        .btn-action {
+            border: none;
+            border-radius: 8px;
+            width: 34px;
+            height: 34px;
+        }
+
+        .btn-edit {
+            background: #e5eff3;
+            color: #527789;
+        }
+
+        .btn-delete {
+            background: #f7e1e5;
+            color: #b66c7e;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 45px 20px;
+        }
+
+        .empty-state i {
+            font-size: 45px;
+            color: #d5b3bc;
+        }
+
+        .empty-state h5 {
+            color: #713f50;
+            margin-top: 12px;
+        }
+
+        .empty-state p {
+            color: #9b7b7b;
+        }
+
+        .pagination .page-link {
+            color: #713f50;
+            border-color: #eadbd5;
+        }
+
+        .pagination .page-item.active .page-link {
+            background: #c77d92;
+            border-color: #c77d92;
+            color: white;
+        }
+
+        .month-info {
+            background: #f8eee8;
+            border-radius: 13px;
+            padding: 13px 16px;
+            color: #806666;
+            margin-bottom: 18px;
+        }
+
+        .month-info strong {
+            color: #713f50;
+        }
+
+        @media(max-width:768px) {
+
+            .page-top {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .month-selector {
+                width: 100%;
+            }
+
+            .jenis-wrapper {
+                flex-direction: column;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="app-wrapper">
+
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+
+            <div class="logo-icon">
+                <i class="bi bi-wallet2"></i>
+            </div>
+
+            <div>
+                <div class="logo-title">
+                    My Finance
+                </div>
+
+                <div class="logo-subtitle">
+                    Kelola keuanganmu
+                </div>
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <div class="menu-title">
+                MENU UTAMA
+            </div>
+
+
+            <a
+                href="dashboard.html"
+                class="menu-item"
+            >
+                <i class="bi bi-grid-1x2-fill"></i>
+                <span>Dashboard</span>
+            </a>
+
+
+            <a
+                href="keuangan.html"
+                class="menu-item active"
+            >
+                <i class="bi bi-wallet2"></i>
+                <span>Keuangan</span>
+            </a>
+
+
+            <a
+                href="tabungan.html"
+                class="menu-item"
+            >
+                <i class="bi bi-piggy-bank"></i>
+                <span>Tabungan</span>
+            </a>
+
+
+            <a
+                href="kategori.html"
+                class="menu-item"
+            >
+                <i class="bi bi-tags"></i>
+                <span>Kategori</span>
+            </a>
+
+
+            <a
+                href="laporan.html"
+                class="menu-item"
+            >
+                <i class="bi bi-bar-chart-line"></i>
+                <span>Laporan</span>
+            </a>
+
+
+            <div class="menu-title mt-4">
+                AKUN
+            </div>
+
+
+            <a
+                href="profile.html"
+                class="menu-item"
+            >
+                <i class="bi bi-person-circle"></i>
+                <span>Profil Saya</span>
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN
+         ===================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- HEADER -->
+
+        <div class="page-top">
+
+            <div class="page-title">
+
+                <h2>
+                    Keuangan 💰
+                </h2>
+
+                <p>
+                    Catat dan kelola transaksi
+                    keuanganmu setiap bulan.
+                </p>
+
+            </div>
+
+
+            <!-- PILIH BULAN -->
+
+            <div class="month-selector">
+
+                <label>
+                    BULAN YANG DILIHAT
+                </label>
+
+                <select id="pilihBulan"></select>
+
+            </div>
+
+        </div>
+
+
+        <!-- INFORMASI BULAN -->
+
+        <div class="month-info">
+
+            <i class="bi bi-calendar3 me-2"></i>
+
+            Menampilkan transaksi bulan:
+
+            <strong id="namaBulanAktif">
+                -
+            </strong>
+
+        </div>
+
+
+        <!-- =================================================
+             RINGKASAN
+             ================================================= -->
+
+        <div class="row g-3 mb-4">
+
+
+            <!-- SALDO -->
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="summary-card">
+
+                    <div class="summary-icon icon-saldo">
+                        <i class="bi bi-wallet2"></i>
+                    </div>
+
+                    <div class="summary-label">
+                        Saldo Saat Ini
+                    </div>
+
+                    <div
+                        class="summary-value"
+                        id="summarySaldo"
+                    >
+                        Rp0
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PEMASUKAN -->
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="summary-card">
+
+                    <div class="summary-icon icon-masuk">
+                        <i class="bi bi-arrow-down-left"></i>
+                    </div>
+
+                    <div class="summary-label">
+                        Pemasukan Bulan Ini
+                    </div>
+
+                    <div
+                        class="summary-value"
+                        id="summaryPemasukan"
+                    >
+                        Rp0
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PENGELUARAN -->
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="summary-card">
+
+                    <div class="summary-icon icon-keluar">
+                        <i class="bi bi-arrow-up-right"></i>
+                    </div>
+
+                    <div class="summary-label">
+                        Pengeluaran Bulan Ini
+                    </div>
+
+                    <div
+                        class="summary-value"
+                        id="summaryPengeluaran"
+                    >
+                        Rp0
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- TRANSAKSI -->
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="summary-card">
+
+                    <div class="summary-icon icon-transaksi">
+                        <i class="bi bi-receipt"></i>
+                    </div>
+
+                    <div class="summary-label">
+                        Jumlah Transaksi
+                    </div>
+
+                    <div
+                        class="summary-value"
+                        id="summaryJumlah"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             FORM TRANSAKSI
+             ================================================= -->
+
+        <div
+            id="formCard"
+            class="form-card mb-4"
+            style="display:none;"
+        >
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                <h5
+                    class="section-title mb-0"
+                    id="judulForm"
+                >
+                    Tambah Transaksi
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    id="btnTutupForm"
+                ></button>
+
+            </div>
+
+
+            <form id="formTransaksi">
+
+                <input
+                    type="hidden"
+                    id="editTransaksiId"
+                >
+
+
+                <!-- JENIS -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Jenis Transaksi
+                    </label>
+
+
+                    <div class="jenis-wrapper">
+
+
+                        <div class="jenis-option">
+
+                            <input
+                                type="radio"
+                                name="jenis"
+                                id="optionPemasukan"
+                                value="Pemasukan"
+                                checked
+                            >
+
+                            <label
+                                for="optionPemasukan"
+                            >
+                                <i class="bi bi-arrow-down-left me-1"></i>
+                                Pemasukan
+                            </label>
+
+                        </div>
+
+
+                        <div class="jenis-option">
+
+                            <input
+                                type="radio"
+                                name="jenis"
+                                id="optionPengeluaran"
+                                value="Pengeluaran"
+                            >
+
+                            <label
+                                for="optionPengeluaran"
+                            >
+                                <i class="bi bi-arrow-up-right me-1"></i>
+                                Pengeluaran
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="row g-3">
+
+
+                    <!-- TANGGAL -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="tanggalTransaksi"
+                            class="form-label"
+                        >
+                            Tanggal
+                        </label>
+
+                        <input
+                            type="date"
+                            class="form-control"
+                            id="tanggalTransaksi"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- KATEGORI -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="kategoriTransaksi"
+                            class="form-label"
+                        >
+                            Kategori
+                        </label>
+
+                        <select
+                            class="form-select"
+                            id="kategoriTransaksi"
+                            required
+                        ></select>
+
+                    </div>
+
+
+                    <!-- NOMINAL -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="nominalTransaksi"
+                            class="form-label"
+                        >
+                            Nominal
+                        </label>
+
+                        <input
+                            type="number"
+                            class="form-control"
+                            id="nominalTransaksi"
+                            min="0"
+                            step="1000"
+                            placeholder="Contoh: 50000"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- KETERANGAN -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="keteranganTransaksi"
+                            class="form-label"
+                        >
+                            Keterangan
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="keteranganTransaksi"
+                            placeholder="Contoh: Makan siang"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- METODE -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="metodeTransaksi"
+                            class="form-label"
+                        >
+                            Metode Pembayaran
+                        </label>
+
+                        <select
+                            class="form-select"
+                            id="metodeTransaksi"
+                        >
+
+                            <option value="Cash">
+                                Cash
+                            </option>
+
+                            <option value="Transfer">
+                                Transfer
+                            </option>
+
+                            <option value="QRIS">
+                                QRIS
+                            </option>
+
+                            <option value="E-Wallet">
+                                E-Wallet
+                            </option>
+
+                            <option value="Debit">
+                                Debit
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- CATATAN -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="catatanTransaksi"
+                            class="form-label"
+                        >
+                            Catatan
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="catatanTransaksi"
+                            placeholder="Opsional"
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="mt-4 d-flex gap-2">
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-pink"
+                        id="btnSimpanTransaksi"
+                    >
+
+                        <i class="bi bi-check-circle me-1"></i>
+
+                        Simpan Transaksi
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="btn btn-soft"
+                        id="btnBatalEdit"
+                        style="display:none;"
+                    >
+
+                        Batal Edit
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <!-- =================================================
+             TOMBOL TAMBAH
+             ================================================= -->
+
+        <div class="mb-4">
+
+            <button
+                type="button"
+                class="btn btn-pink"
+                id="btnBukaForm"
+            >
+
+                <i class="bi bi-plus-circle me-1"></i>
+
+                Tambah Transaksi
+
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             FILTER
+             ================================================= -->
+
+        <div class="filter-card mb-4">
+
+            <div class="filter-title">
+
+                <i class="bi bi-funnel me-2"></i>
+
+                Cari & Filter Transaksi
+
+            </div>
+
+
+            <div class="row g-3">
+
+
+                <!-- SEARCH -->
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        Cari
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="searchTransaksi"
+                        placeholder="Cari keterangan..."
+                    >
+
+                </div>
+
+
+                <!-- JENIS -->
+
+                <div class="col-md-3">
+
+                    <label class="form-label">
+                        Jenis
+                    </label>
+
+                    <select
+                        class="form-select"
+                        id="filterJenis"
+                    >
+
+                        <option value="">
+                            Semua Jenis
+                        </option>
+
+                        <option value="Pemasukan">
+                            Pemasukan
+                        </option>
+
+                        <option value="Pengeluaran">
+                            Pengeluaran
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- KATEGORI -->
+
+                <div class="col-md-3">
+
+                    <label class="form-label">
+                        Kategori
+                    </label>
+
+                    <select
+                        class="form-select"
+                        id="filterKategori"
+                    >
+
+                        <option value="">
+                            Semua Kategori
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- RESET -->
+
+                <div class="col-md-2 d-flex align-items-end">
+
+                    <button
+                        type="button"
+                        class="btn btn-soft w-100"
+                        id="btnResetFilter"
+                    >
+
+                        <i class="bi bi-arrow-counterclockwise"></i>
+
+                        Reset
+
+                    </button>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             TABEL
+             ================================================= -->
+
+        <div class="table-card">
+
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+
+                <h5 class="section-title mb-0">
+
+                    Daftar Transaksi
+
+                </h5>
+
+
+                <span
+                    class="text-muted small"
+                    id="jumlahHasil"
+                >
+                    0 transaksi
+                </span>
+
+
+            </div>
+
+
+            <div
+                id="tabelTransaksi"
+                class="table-wrapper"
+            >
+
+                <div class="empty-state">
+
+                    <i class="bi bi-receipt"></i>
+
+                    <h5>
+                        Belum ada transaksi
+                    </h5>
+
+                    <p>
+                        Tambahkan transaksi
+                        pertamamu.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- PAGINATION -->
+
+            <div class="d-flex justify-content-between align-items-center mt-4">
+
+
+                <small
+                    id="paginationInfo"
+                    class="text-muted"
+                >
+                    -
+                </small>
+
+
+                <nav>
+
+                    <ul
+                        class="pagination pagination-sm mb-0"
+                        id="pagination"
+                    ></ul>
+
+                </nav>
+
+
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+</div>
+
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
+<script src="assets/js/app.js"></script>
+
+<script src="assets/js/keuangan.js"></script>
+
+
+</body>
+
+</html>

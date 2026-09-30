@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Profil Saya - My Finance</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        /* =====================================================
+           PROFILE PAGE
+           ===================================================== */
+
+        .profile-page {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .profile-header-card {
+            background: linear-gradient(
+                135deg,
+                #fffaf8,
+                #f8e8e5
+            );
+            border: 1px solid #eadbd5;
+            border-radius: 25px;
+            padding: 35px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px rgba(113, 63, 80, 0.08);
+        }
+
+        .profile-header-content {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .profile-photo-wrapper {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .profile-photo {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #fff;
+            box-shadow: 0 6px 20px rgba(113, 63, 80, 0.18);
+            background: #eadbd5;
+        }
+
+        .profile-photo-placeholder {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: #e9c8d2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #713f50;
+            font-size: 55px;
+            border: 5px solid #fff;
+            box-shadow: 0 6px 20px rgba(113, 63, 80, 0.18);
+        }
+
+        .profile-camera {
+            position: absolute;
+            right: 2px;
+            bottom: 3px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #c77d92;
+            color: white;
+            border: 3px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .profile-camera:hover {
+            background: #af687d;
+            transform: scale(1.05);
+        }
+
+        .profile-header-text h2 {
+            color: #713f50;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .profile-header-text p {
+            color: #9b7b7b;
+            margin-bottom: 0;
+        }
+
+        .profile-card {
+            background: #fffaf8;
+            border: 1px solid #eadbd5;
+            border-radius: 22px;
+            padding: 28px;
+            margin-bottom: 25px;
+            box-shadow: 0 6px 20px rgba(113, 63, 80, 0.06);
+        }
+
+        .profile-card-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #713f50;
+            font-weight: 700;
+            margin-bottom: 22px;
+        }
+
+        .profile-card-title i {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: #f1d9df;
+            color: #713f50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-label {
+            color: #713f50;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .profile-input {
+            border: 1px solid #eadbd5;
+            border-radius: 12px;
+            padding: 12px 15px;
+            background: #fff;
+        }
+
+        .profile-input:focus {
+            border-color: #c77d92;
+            box-shadow: 0 0 0 0.2rem rgba(199, 125, 146, 0.15);
+        }
+
+        .photo-upload-box {
+            background: #fdf5f2;
+            border: 2px dashed #e5c8cd;
+            border-radius: 18px;
+            padding: 22px;
+        }
+
+        .photo-upload-box p {
+            color: #9b7b7b;
+            margin-bottom: 15px;
+        }
+
+        .btn-profile-save {
+            background: #c77d92;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 11px 22px;
+            font-weight: 600;
+        }
+
+        .btn-profile-save:hover {
+            background: #af687d;
+            color: white;
+        }
+
+        .btn-delete-photo {
+            background: #f8e3e5;
+            color: #a65368;
+            border: none;
+            border-radius: 12px;
+            padding: 10px 18px;
+            font-weight: 600;
+        }
+
+        .btn-delete-photo:hover {
+            background: #f2d1d6;
+            color: #943f55;
+        }
+
+        .info-box {
+            background: #eef8fb;
+            border: 1px solid #d9eff8;
+            color: #527789;
+            border-radius: 14px;
+            padding: 15px;
+            font-size: 14px;
+        }
+
+        .danger-zone {
+            border-color: #efd4d4;
+        }
+
+        .danger-zone .profile-card-title {
+            color: #9b4e5d;
+        }
+
+        .btn-danger-soft {
+            background: #f8e3e5;
+            color: #9b4e5d;
+            border: none;
+            border-radius: 12px;
+            padding: 11px 18px;
+            font-weight: 600;
+        }
+
+        .btn-danger-soft:hover {
+            background: #f2d0d5;
+            color: #873c4d;
+        }
+
+        #fileFoto {
+            display: none;
+        }
+
+        #previewContainer {
+            display: none;
+            margin-top: 18px;
+        }
+
+        #previewFoto {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 4px 15px rgba(113, 63, 80, 0.15);
+        }
+
+        @media (max-width: 768px) {
+
+            .profile-header-card {
+                padding: 25px;
+            }
+
+            .profile-header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-photo,
+            .profile-photo-placeholder {
+                width: 115px;
+                height: 115px;
+            }
+
+            .profile-photo-placeholder {
+                font-size: 48px;
+            }
+
+            .profile-card {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app-wrapper">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+            <div class="logo-icon">
+                <i class="bi bi-wallet2"></i>
+            </div>
+
+            <div>
+                <div class="logo-title">My Finance</div>
+                <div class="logo-subtitle">Kelola keuanganmu</div>
+            </div>
+        </div>
+
+        <nav class="sidebar-menu">
+
+            <a href="dashboard.html">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="keuangan.html">
+                <i class="bi bi-wallet2"></i>
+                <span>Keuangan</span>
+            </a>
+
+            <a href="tabungan.html">
+                <i class="bi bi-piggy-bank"></i>
+                <span>Tabungan</span>
+            </a>
+
+            <a href="kategori.html">
+                <i class="bi bi-tags"></i>
+                <span>Kategori</span>
+            </a>
+
+            <a href="laporan.html">
+                <i class="bi bi-bar-chart"></i>
+                <span>Laporan</span>
+            </a>
+
+            <a href="profile.html" class="active">
+                <i class="bi bi-person-circle"></i>
+                <span>Profil Saya</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="sidebar-mini-info">
+                <i class="bi bi-heart-fill"></i>
+                <span>Atur keuangan dengan bijak 💕</span>
+            </div>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main-content">
+
+        <!-- PAGE HEADER -->
+        <div class="page-header">
+
+            <div>
+                <h1>
+                    <i class="bi bi-person-circle"></i>
+                    Profil Saya
+                </h1>
+
+                <p>
+                    Kelola informasi profil dan foto akunmu.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="profile-page">
+
+            <!-- PROFILE HEADER -->
+            <div class="profile-header-card">
+
+                <div class="profile-header-content">
+
+                    <div class="profile-photo-wrapper">
+
+                        <div id="photoDisplay"></div>
+
+                        <label
+                            for="fileFoto"
+                            class="profile-camera"
+                            title="Ganti foto profil"
+                        >
+                            <i class="bi bi-camera-fill"></i>
+                        </label>
+
+                    </div>
+
+
+                    <div class="profile-header-text">
+
+                        <h2 id="profileNamaHeader">
+                            Pengguna
+                        </h2>
+
+                        <p id="profileUsernameHeader">
+                            @pengguna
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- DATA PROFIL -->
+            <div class="profile-card">
+
+                <div class="profile-card-title">
+                    <i class="bi bi-person"></i>
+
+                    <span>Informasi Profil</span>
+                </div>
+
+
+                <form id="formProfile">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+
+                            <label class="profile-label">
+                                Nama Lengkap
+                            </label>
+
+                            <input
+                                type="text"
+                                id="namaProfile"
+                                class="form-control profile-input"
+                                placeholder="Masukkan nama lengkap"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <label class="profile-label">
+                                Username
+                            </label>
+
+                            <input
+                                type="text"
+                                id="usernameProfile"
+                                class="form-control profile-input"
+                                placeholder="Masukkan username"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="d-flex justify-content-end mt-4">
+
+                        <button
+                            type="submit"
+                            class="btn btn-profile-save"
+                        >
+                            <i class="bi bi-check-circle me-1"></i>
+                            Simpan Perubahan
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <!-- FOTO PROFIL -->
+            <div class="profile-card">
+
+                <div class="profile-card-title">
+                    <i class="bi bi-image"></i>
+
+                    <span>Foto Profil</span>
+                </div>
+
+
+                <div class="photo-upload-box">
+
+                    <p>
+                        Pilih foto dari komputer kamu.
+                        Foto akan disimpan di browser ini.
+                    </p>
+
+
+                    <input
+                        type="file"
+                        id="fileFoto"
+                        accept="image/*"
+                    >
+
+
+                    <label
+                        for="fileFoto"
+                        class="btn btn-profile-save"
+                    >
+                        <i class="bi bi-upload me-1"></i>
+                        Pilih Foto
+                    </label>
+
+
+                    <div id="previewContainer">
+
+                        <div class="small text-muted mb-2">
+                            Preview foto:
+                        </div>
+
+                        <img
+                            id="previewFoto"
+                            src=""
+                            alt="Preview foto"
+                        >
+
+                    </div>
+
+
+                    <div class="mt-3">
+
+                        <button
+                            type="button"
+                            id="btnHapusFoto"
+                            class="btn btn-delete-photo"
+                        >
+                            <i class="bi bi-trash3 me-1"></i>
+                            Hapus Foto Profil
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- INFORMASI -->
+            <div class="profile-card">
+
+                <div class="profile-card-title">
+                    <i class="bi bi-info-circle"></i>
+
+                    <span>Informasi Penyimpanan</span>
+                </div>
+
+
+                <div class="info-box">
+
+                    <i class="bi bi-lightbulb me-2"></i>
+
+                    My Finance versi GitHub Pages menggunakan
+                    <strong>LocalStorage</strong>.
+                    Data profil, transaksi, tabungan, dan kategori
+                    tersimpan di browser yang sedang digunakan.
+
+                    <br><br>
+
+                    Artinya, data tidak otomatis tersinkron ke
+                    komputer atau HP lain.
+
+                </div>
+
+            </div>
+
+
+            <!-- DANGER ZONE -->
+            <div class="profile-card danger-zone">
+
+                <div class="profile-card-title">
+                    <i class="bi bi-exclamation-triangle"></i>
+
+                    <span>Pengaturan Data</span>
+                </div>
+
+
+                <p class="text-muted">
+                    Gunakan tombol ini jika ingin menghapus seluruh
+                    data My Finance dari browser ini.
+                </p>
+
+
+                <button
+                    type="button"
+                    id="btnHapusSemuaData"
+                    class="btn btn-danger-soft"
+                >
+                    <i class="bi bi-trash3 me-1"></i>
+                    Hapus Semua Data
+                </button>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- TOAST -->
+<div
+    class="toast-container position-fixed bottom-0 end-0 p-3"
+    style="z-index: 9999;"
+>
+
+    <div
+        id="profileToast"
+        class="toast"
+        role="alert"
+    >
+
+        <div class="toast-header">
+
+            <i class="bi bi-heart-fill me-2 text-danger"></i>
+
+            <strong class="me-auto">
+                My Finance
+            </strong>
+
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="toast"
+            ></button>
+
+        </div>
+
+        <div
+            class="toast-body"
+            id="profileToastMessage"
+        >
+            Berhasil.
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="assets/js/app.js"></script>
+
+<script src="assets/js/profile.js"></script>
+
+</body>
+</html>
